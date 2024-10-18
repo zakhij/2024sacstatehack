@@ -8,6 +8,8 @@
 <body>
     <h1>Welcome to my Flask App!</h1>
     <button id="myButton">Click me!</button>
+    <button id="travelButton">Get Travel Recommendations</button>
+    <div id="recommendationsResult"></div>
 
     <script>
         document.getElementById('myButton').addEventListener('click', function() {
@@ -17,6 +19,20 @@
             .then(response => response.json())
             .then(data => {
                 alert(data.result);
+            });
+        });
+
+        document.getElementById('travelButton').addEventListener('click', function() {
+            fetch('/get_travel_recommendations', {
+                method: 'POST',
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('recommendationsResult').innerHTML = data.recommendations;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('recommendationsResult').innerHTML = 'An error occurred while fetching recommendations.';
             });
         });
     </script>
